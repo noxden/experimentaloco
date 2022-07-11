@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Travel & Transit in VR (by Philip Hausmeier)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 06-07-22
+// Last changed: 11-07-22
 //================================================================
 
 using System.Collections;
@@ -14,37 +14,30 @@ public class Player : MonoBehaviour
 {
     //# Public Variables 
     public float gravity = -9.81f;
-    public float friction = -0.3f;  //< on ground
-    public float drag = -0.1f;      //< in air
+    public float friction = -0.3f;  //< while on ground
+    public float drag = -0.1f;      //< while in air
+    public int maxExplosivesInWorld;
+    public GameObject explosiveSpawnOrigin;
+    public GameObject DEBUGExplosiveSpawn;
+    public GameObject explosivePrefab;
+    public List<GameObject> ExplosivesInWorld;
 
     //public bool canSpawnExplosives;
     //public bool canDetonateExplosive; //maybe set this up as return method instead?
 
     //public int cooldownExplosiveActivation;
 
-    public List<GameObject> ExplosivesInWorld;
-    public int maxExplosivesInWorld;
-    public GameObject explosiveSpawnOrigin;
-    public GameObject DEBUGExplosiveSpawn;
-    public GameObject explosivePrefab;
-
-    //# References to other components 
-    private CharacterController controller;
-    private InputManager inputManager;
-
     //# Private Variables 
+    private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
 
     //# Monobehaviour Events 
-    private void Awake()
-    {
-        inputManager = FindObjectOfType<InputManager>();
-    }
     private void Start()
     {
-        controller = GetComponent<CharacterController>();
-        if (GameManager.Instance.DebugWithoutHMD)
+        controller = GetComponent<CharacterController>();   //< Set up CharacterController reference
+
+        if (GameManager.Instance.DebugWithoutHMD)           //< Every change for debugging without an HMD goes here
         {
             explosiveSpawnOrigin = DEBUGExplosiveSpawn;
         }
@@ -54,41 +47,29 @@ public class Player : MonoBehaviour
     {
         isGrounded = controller.isGrounded;
 
-        velocity.y += gravity * Time.deltaTime;
+        if (!isGrounded)
+            velocity.y += gravity * Time.deltaTime;
         if (isGrounded && velocity.y < 0)
-        {
             velocity.y = 0;
-        }
+        
         controller.Move(velocity * Time.deltaTime); //< Multiply by Time.deltaTime a second time, because that's how physics work (https://youtu.be/_QajrabyTJc?t=998)
 
         // Todo: Depending on if value is below or above 0, go towards 0
         if (isGrounded)
         {
-            velocity += new Vector3 (friction * Time.deltaTime, 0, friction * Time.deltaTime);
+            velocity += new Vector3(friction * Time.deltaTime, 0, friction * Time.deltaTime);
         }
-        else 
-        { 
-            velocity += new Vector3(drag * Time.deltaTime, 0, drag * Time.deltaTime); 
+        else
+        {
+            velocity += new Vector3(drag * Time.deltaTime, 0, drag * Time.deltaTime);
         }
-    }
-
-    private void OnEnable()
-    {
-        inputManager.Event_ThrowExplosive += ThrowExplosive;
-        inputManager.Event_DetonateExplosive += DetonateExplosive;
-    }
-
-    private void OnDisable()
-    {
-        inputManager.Event_ThrowExplosive -= ThrowExplosive;
-        inputManager.Event_DetonateExplosive -= DetonateExplosive;
     }
 
     //# Public Methods 
     public void Launch(Vector3 propulsion)
     {
         velocity += propulsion;
-        //controller.Move(velocity); not needed, unless you want to make a dash
+        //controller.Move(velocity); not needed, unless you want to make a dash, because controller.Move is already being called every frame
     }
 
     //# Private Methods 
