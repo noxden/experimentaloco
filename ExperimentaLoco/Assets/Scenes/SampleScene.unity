@@ -184,11 +184,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 096480bd3b33890459739c7b667c11d9, type: 3}
---- !u!1 &186272157 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1353640061765558036, guid: 096480bd3b33890459739c7b667c11d9, type: 3}
-  m_PrefabInstance: {fileID: 821035980}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &186272158 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1890914790000620576, guid: 096480bd3b33890459739c7b667c11d9, type: 3}
@@ -564,7 +559,7 @@ MonoBehaviour:
   m_EnableInputActions: 1
   m_ModelPrefab: {fileID: 0}
   m_ModelParent: {fileID: 0}
-  m_Model: {fileID: 186272158}
+  m_Model: {fileID: 0}
   m_AnimateModel: 0
   m_ModelSelectTransition: 
   m_ModelDeSelectTransition: 
@@ -2179,7 +2174,7 @@ MonoBehaviour:
   m_EnableInputActions: 1
   m_ModelPrefab: {fileID: 0}
   m_ModelParent: {fileID: 0}
-  m_Model: {fileID: 1415183052}
+  m_Model: {fileID: 0}
   m_AnimateModel: 0
   m_ModelSelectTransition: 
   m_ModelDeSelectTransition: 
