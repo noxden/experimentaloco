@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Travel & Transit in VR (by Philip Hausmeier)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 01-07-22
+// Last changed: 06-07-22
 //================================================================
 
 using System.Collections;
@@ -14,14 +14,18 @@ public class Player : MonoBehaviour
 {
     //# Public Variables 
     public float gravity = -9.81f;
-    public bool canSpawnExplosives;
-    public bool canDetonateExplosive;
+    public float friction = -0.3f;  //< on ground
+    public float drag = -0.1f;      //< in air
+
+    //public bool canSpawnExplosives;
+    //public bool canDetonateExplosive; //maybe set this up as return method instead?
 
     //public int cooldownExplosiveActivation;
 
     public List<GameObject> ExplosivesInWorld;
     public int maxExplosivesInWorld;
     public GameObject explosiveSpawnOrigin;
+    public GameObject DEBUGExplosiveSpawn;
     public GameObject explosivePrefab;
 
     //# References to other components 
@@ -40,16 +44,32 @@ public class Player : MonoBehaviour
     private void Start()
     {
         controller = GetComponent<CharacterController>();
+        if (GameManager.Instance.DebugWithoutHMD)
+        {
+            explosiveSpawnOrigin = DEBUGExplosiveSpawn;
+        }
     }
 
     private void Update()
     {
+        isGrounded = controller.isGrounded;
+
         velocity.y += gravity * Time.deltaTime;
-        if (controller.isGrounded && velocity.y < 0)
+        if (isGrounded && velocity.y < 0)
         {
             velocity.y = 0;
         }
         controller.Move(velocity * Time.deltaTime); //< Multiply by Time.deltaTime a second time, because that's how physics work (https://youtu.be/_QajrabyTJc?t=998)
+
+        // Todo: Depending on if value is below or above 0, go towards 0
+        if (isGrounded)
+        {
+            velocity += new Vector3 (friction * Time.deltaTime, 0, friction * Time.deltaTime);
+        }
+        else 
+        { 
+            velocity += new Vector3(drag * Time.deltaTime, 0, drag * Time.deltaTime); 
+        }
     }
 
     private void OnEnable()
@@ -68,7 +88,7 @@ public class Player : MonoBehaviour
     public void Launch(Vector3 propulsion)
     {
         velocity += propulsion;
-        controller.Move(velocity);
+        //controller.Move(velocity); not needed, unless you want to make a dash
     }
 
     //# Private Methods 
