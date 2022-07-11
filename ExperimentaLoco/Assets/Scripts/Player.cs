@@ -3,19 +3,21 @@
 // Course:       Travel & Transit in VR (by Philip Hausmeier)
 // Script by:    Daniel Heilmann (771144)
 // Last changed: 11-07-22
+//! Gravity is currently disabled
 //================================================================
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 public class Player : MonoBehaviour
 {
     //# Public Variables 
     public float gravity = -9.81f;
-    public float friction = 0.3f;  //< while on ground
-    public float drag = 0.1f;      //< while in air
+    public float friction = 5f;  //< while on ground
+    public float drag = 1f;      //< while in air
     public int maxExplosivesInWorld;
     public GameObject explosiveSpawnOrigin;
     public GameObject DEBUGExplosiveSpawn;
@@ -29,7 +31,7 @@ public class Player : MonoBehaviour
 
     //# Private Variables 
     private CharacterController controller;
-    private Vector3 velocity;
+    [SerializeField] private Vector3 velocity;
     private bool isGrounded;
 
     //# Monobehaviour Events 
@@ -45,8 +47,6 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        isGrounded = controller.isGrounded;
-
         if (!isGrounded)
             velocity.y += gravity * Time.deltaTime;
         if (isGrounded && velocity.y < 0)
@@ -54,15 +54,17 @@ public class Player : MonoBehaviour
 
         controller.Move(velocity * Time.deltaTime); //< Multiply by Time.deltaTime a second time, because that's how physics work (https://youtu.be/_QajrabyTJc?t=998)
 
+        isGrounded = controller.isGrounded;     //< For some reason, this order works. This line needs to be called directly after a non-zero controller.Move!
+        //Debug.Log($"isGrounded: {isGrounded}");
+
         velocity.x = DecreaseVelocity(velocity.x);
-        velocity.y = DecreaseVelocity(velocity.y);
+        velocity.z = DecreaseVelocity(velocity.z);
     }
 
     //# Public Methods 
     public void Launch(Vector3 propulsion)
     {
         velocity += propulsion;
-        //controller.Move(velocity); not needed, unless you want to make a dash, because controller.Move is already being called every frame
     }
 
     public void ThrowExplosive()
@@ -83,23 +85,29 @@ public class Player : MonoBehaviour
 
     public void DetonateExplosive()
     {
+        if (ExplosivesInWorld.Count == 0)
+        {
+            Debug.Log($"Player.DetonateExplosive: There are no explosives in the world.");
+            return;
+        }
+
         Debug.Log($"Player.DetonateExplosive has been called.");
         List<GameObject> Reversed_ExplosivesInWorld = ExplosivesInWorld;
         Reversed_ExplosivesInWorld.Reverse();
         GameObject CurrentExplosive = Reversed_ExplosivesInWorld[0];
 
-        if (CurrentExplosive != null)
-        {
-            ExplosivesInWorld.Remove(CurrentExplosive);
-            CurrentExplosive.GetComponent<Explosive>().Detonate(this);
-        }
+        ExplosivesInWorld.Remove(CurrentExplosive);
+        CurrentExplosive.GetComponent<Explosive>().Detonate(this);
     }
 
     //# Private Methods 
     private float DecreaseVelocity(float velocity)
     {
         if (velocity == 0)     //< Cancel out immediately if input value is 0. (Don't bother running this method at all if player is standing still.)
-            return velocity;
+            return 0;
+
+        if (IsMiniscule(velocity))
+            return 0;
 
         //> Setting the reductionValue based on if player is grounded or not.
         float reductionValue;
@@ -117,32 +125,27 @@ public class Player : MonoBehaviour
         return velocity;
     }
 
+    private bool IsMiniscule(float value)   //> Returns true if input value's magnitude is less than stopTreshold.
+    {
+        float stopThreshold = 0.001f;
+        return ((value <= stopThreshold && value > 0) || (value >= -stopThreshold && value < 0));
+        //> Long version:
+        // if (value <= stoppingThreshold && value > 0)
+        //     return true;
+        // else if (value >= -stoppingThreshold && value < 0)
+        //     return true;
+        // else
+        //     return false;
+    }
+
     //# Input Event Handlers 
+    private void OnThrow()
+    {
+        ThrowExplosive();
+    }
 
-
-    //# ARCHIVED - Nice ideas, but there were better 
-    // private void DecreaseFloat(float value)
-    // {
-    //     if (velocity.x == 0 && velocity.z == 0)  //< Don't bother running this method at all if player is standing still.
-    //         return;
-
-    //     //> Setting the reductionValue based on if player is grounded or in the air.
-    //     float reductionValue;
-    //     if (isGrounded)
-    //         reductionValue = friction;
-    //     else
-    //         reductionValue = drag;
-
-    //     //> Applying the reductionValue so that it always diminshes the velocity towards 0
-    //     //  If velocity in that axis is already 0, then there is no need to edit it.
-    //     if (velocity.x > 0)
-    //         velocity.x -= reductionValue * Time.deltaTime;
-    //     else if (velocity.x < 0)
-    //         velocity.x += reductionValue * Time.deltaTime;
-
-    //     if (velocity.y > 0)                                  //< This is partially redundant code, but I do not know how to improve it currently.
-    //         velocity.y -= reductionValue * Time.deltaTime;
-    //     else if (velocity.y < 0)
-    //         velocity.y += reductionValue * Time.deltaTime;
-    // }
+    private void OnDetonate()
+    {
+        DetonateExplosive();
+    }
 }
