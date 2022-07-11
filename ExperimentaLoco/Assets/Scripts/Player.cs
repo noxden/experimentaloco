@@ -3,7 +3,6 @@
 // Course:       Travel & Transit in VR (by Philip Hausmeier)
 // Script by:    Daniel Heilmann (771144)
 // Last changed: 11-07-22
-//! Gravity is currently disabled
 //================================================================
 
 using System.Collections;
@@ -31,7 +30,7 @@ public class Player : MonoBehaviour
 
     //# Private Variables 
     private CharacterController controller;
-    [SerializeField] private Vector3 velocity;
+    [SerializeField] private Vector3 velocity;   //< SerializeField for debugging purposes.
     private bool isGrounded;
 
     //# Monobehaviour Events 
@@ -55,7 +54,6 @@ public class Player : MonoBehaviour
         controller.Move(velocity * Time.deltaTime); //< Multiply by Time.deltaTime a second time, because that's how physics work (https://youtu.be/_QajrabyTJc?t=998)
 
         isGrounded = controller.isGrounded;     //< For some reason, this order works. This line needs to be called directly after a non-zero controller.Move!
-        //Debug.Log($"isGrounded: {isGrounded}");
 
         velocity.x = DecreaseVelocity(velocity.x);
         velocity.z = DecreaseVelocity(velocity.z);
@@ -129,13 +127,6 @@ public class Player : MonoBehaviour
     {
         float stopThreshold = 0.001f;
         return ((value <= stopThreshold && value > 0) || (value >= -stopThreshold && value < 0));
-        //> Long version:
-        // if (value <= stoppingThreshold && value > 0)
-        //     return true;
-        // else if (value >= -stoppingThreshold && value < 0)
-        //     return true;
-        // else
-        //     return false;
     }
 
     //# Input Event Handlers 

@@ -30,6 +30,9 @@ public class MouseLook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.Instance.DebugWithoutHMD == false)
+            return;
+        
         Vector2 mouse = lookInput.ReadValue<Vector2>() * mouseSensitivity * Time.deltaTime;
 
         xRotation -= mouse.y;

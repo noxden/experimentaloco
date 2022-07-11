@@ -17,7 +17,7 @@ public class KeyboardMovement : MonoBehaviour
     public PlayerInput playerInput;
     private InputAction moveInput;
     public CharacterController controller;
-    public float movementSpeed = 12f;
+    public float movementSpeed = 10f;
     
     private void Start()
     {

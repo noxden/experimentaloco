@@ -877,121 +877,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fef420dfdd5ed744bcd4a7c61e4d389, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputAction:
-    m_Name: Input
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 336c31aa-2e6b-4804-980d-2591df9171bf
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: WASD
-      m_Id: 72e5158f-60fc-4c2f-acc7-edd1a7afc9d1
-      m_Path: Dpad
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Input
-      m_Flags: 4
-    - m_Name: up
-      m_Id: bf27e981-71f5-4d08-8d31-cb5250bc6f51
-      m_Path: <Keyboard>/w
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: ;Keyboard&Mouse
-      m_Action: Input
-      m_Flags: 8
-    - m_Name: up
-      m_Id: e4af24a6-c4d9-4d2f-aa08-1c1029004e7e
-      m_Path: <Keyboard>/upArrow
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: ;Keyboard&Mouse
-      m_Action: Input
-      m_Flags: 8
-    - m_Name: down
-      m_Id: eaf55477-a23f-40ed-8c62-eec4829b6131
-      m_Path: <Keyboard>/s
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: ;Keyboard&Mouse
-      m_Action: Input
-      m_Flags: 8
-    - m_Name: down
-      m_Id: ef162360-faf4-4a09-a734-59eccb3edee5
-      m_Path: <Keyboard>/downArrow
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: ;Keyboard&Mouse
-      m_Action: Input
-      m_Flags: 8
-    - m_Name: left
-      m_Id: 3b4f53eb-eea9-43a2-ac7d-d83f6ff51e82
-      m_Path: <Keyboard>/a
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: ;Keyboard&Mouse
-      m_Action: Input
-      m_Flags: 8
-    - m_Name: left
-      m_Id: dc12c62d-d364-4b8f-ae53-2f393800fb09
-      m_Path: <Keyboard>/leftArrow
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: ;Keyboard&Mouse
-      m_Action: Input
-      m_Flags: 8
-    - m_Name: right
-      m_Id: 8af57c35-4553-49ad-a121-68c4676220fb
-      m_Path: <Keyboard>/d
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: ;Keyboard&Mouse
-      m_Action: Input
-      m_Flags: 8
-    - m_Name: right
-      m_Id: 9fbe23dd-2f9e-4b53-aab5-fbebe0219ed8
-      m_Path: <Keyboard>/rightArrow
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: ;Keyboard&Mouse
-      m_Action: Input
-      m_Flags: 8
-    - m_Name: up
-      m_Id: 6ec91679-0b4b-4d4c-afc0-ae963ae02aa4
-      m_Path: 
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Input
-      m_Flags: 8
-    - m_Name: down
-      m_Id: 2a99ca8d-8623-4995-8ee4-ece7bb85460b
-      m_Path: 
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Input
-      m_Flags: 8
-    - m_Name: left
-      m_Id: 81c7360d-28ef-4e82-9313-c69b97c43dde
-      m_Path: 
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Input
-      m_Flags: 8
-    - m_Name: right
-      m_Id: 15f011e7-95eb-4d15-8c49-738433cc92a4
-      m_Path: 
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Input
-      m_Flags: 8
-    m_Flags: 0
+  playerInput: {fileID: 539259690}
   controller: {fileID: 539259689}
-  movementSpeed: 12
+  movementSpeed: 10
 --- !u!114 &539259688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1005,10 +893,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravity: -9.81
-  friction: 10
-  drag: 3
-  maxExplosivesInWorld: 1
-  explosiveSpawnOrigin: {fileID: 186272157}
+  friction: 5
+  drag: 1
+  maxExplosivesInWorld: 3
+  explosiveSpawnOrigin: {fileID: 292581228}
   DEBUGExplosiveSpawn: {fileID: 1390765992}
   explosivePrefab: {fileID: 349063612796546676, guid: e21a48e3e7ad3854795b656615a1d267, type: 3}
   ExplosivesInWorld: []
