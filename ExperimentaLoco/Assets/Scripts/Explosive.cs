@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Travel & Transit in VR (by Philip Hausmeier)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 06-07-22
+// Last changed: 12-07-22
 //================================================================
 
 using System.Collections;
