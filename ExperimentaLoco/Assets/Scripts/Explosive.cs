@@ -37,7 +37,8 @@ public class Explosive : MonoBehaviour
         {
             Debug.Log($"{this.name} has been detonated near player {player.gameObject.name}!");
 
-            float propulsionForce = Mathf.Clamp(explosionForce / Mathf.Clamp(dirToPlayer.magnitude, 1f, float.MaxValue), 0f, explosionForce);  // Todo: Needs fixing
+            float propulsionForce = explosionForce;
+            //float propulsionForce = Mathf.Clamp(explosionForce / Mathf.Clamp(dirToPlayer.magnitude, 1f, float.MaxValue), 0f, explosionForce);  // Todo: Needs fixing
             //Debug.Log($"Propulsion Force: {propulsionForce}");
             player.Launch(dirToPlayer.normalized * propulsionForce);
         }
