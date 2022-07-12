@@ -289,6 +289,8 @@ MonoBehaviour:
   explosivePrefab: {fileID: 349063612796546676, guid: e21a48e3e7ad3854795b656615a1d267, type: 3}
   explosiveSpawnOrigin: {fileID: 8205625055514822980}
   explosiveSpawnOriginDebug: {fileID: 8205625055927893482}
+  LeftHand: {fileID: 8205625055514822980}
+  RightHand: {fileID: 8205625054619473650}
   ExplosivesInWorld: []
   velocity: {x: 0, y: 0, z: 0}
 --- !u!114 &8205625055186232954

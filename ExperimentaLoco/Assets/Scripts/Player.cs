@@ -8,7 +8,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.XR.Interaction;
 
 [RequireComponent(typeof(CharacterController))]
 public class Player : MonoBehaviour
@@ -21,6 +21,8 @@ public class Player : MonoBehaviour
     public GameObject explosivePrefab;
     public GameObject explosiveSpawnOrigin;
     public GameObject explosiveSpawnOriginDebug;
+    public GameObject LeftHand;
+    public GameObject RightHand;
     public List<GameObject> ExplosivesInWorld;
 
     //public bool canSpawnExplosives;
@@ -42,6 +44,9 @@ public class Player : MonoBehaviour
         {
             explosiveSpawnOrigin = explosiveSpawnOriginDebug;
             controller.center = Vector3.zero;
+
+            LeftHand.SetActive(false);
+            RightHand.SetActive(false);
         }
     }
 
