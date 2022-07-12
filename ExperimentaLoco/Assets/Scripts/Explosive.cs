@@ -31,7 +31,11 @@ public class Explosive : MonoBehaviour
     public void Detonate(Player player)  //> Applies velocity to all players within explosionRadius
     {
         Debug.Log($"{this.name} has been detonated!");
-        Vector3 vectorToPlayer = player.transform.position - this.transform.position;
+
+        Vector3 playerCenter = new Vector3(player.mainCamera.transform.position.x, player.mainCamera.transform.position.y-1f, player.mainCamera.transform.position.z);
+        //< The "Center" / Impact point on the player is always 1 meter below the camera, which should roughly be hip height. Should probably be done via get method in player
+        Vector3 vectorToPlayer = playerCenter - this.transform.position;
+
         if (vectorToPlayer.magnitude <= explosionRadius)
         {
             Debug.Log($"{this.name} has been detonated near player {player.gameObject.name}!");
