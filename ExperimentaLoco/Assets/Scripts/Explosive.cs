@@ -20,32 +20,27 @@ public class Explosive : MonoBehaviour
     //public bool isSelected; //< For a later iteration, where you can detonate bombs you look at.
 
     //# Private Variables 
-    //public Vector3 velocity;
 
     //# Monobehaviour Events 
     private void Start()
     {
-        radiusIndicator.transform.localScale = new Vector3 (explosionRadius, explosionRadius, explosionRadius);
+        radiusIndicator.transform.localScale = Vector3.one * 2 * explosionRadius;  //< Needs to be multiplied by 2 for the radius to diameter conversion 
     }
 
     //# Public Methods 
     public void Detonate(Player player)  //> Applies velocity to all players within explosionRadius
     {
         Debug.Log($"{this.name} has been detonated!");
-        Vector3 dirToPlayer = player.transform.position - this.transform.position;     //? Maybe, the launch direction should instead be based on the player's camera position?
-        if (dirToPlayer.magnitude <= explosionRadius)
+        Vector3 vectorToPlayer = player.transform.position - this.transform.position;
+        if (vectorToPlayer.magnitude <= explosionRadius)
         {
             Debug.Log($"{this.name} has been detonated near player {player.gameObject.name}!");
-
-            float propulsionForce = explosionForce;
-            //float propulsionForce = Mathf.Clamp(explosionForce / Mathf.Clamp(dirToPlayer.magnitude, 1f, float.MaxValue), 0f, explosionForce);  // Todo: Needs fixing
-            //Debug.Log($"Propulsion Force: {propulsionForce}");
-            player.Launch(dirToPlayer.normalized * propulsionForce);
+            player.Launch(vectorToPlayer.normalized * explosionForce);
         }
 
         Despawn();
-        
     }
+
     public void Despawn()
     {
         Destroy(this.gameObject);
