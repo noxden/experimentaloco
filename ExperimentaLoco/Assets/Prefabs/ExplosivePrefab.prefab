@@ -64,8 +64,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 787475a8a815ecd47a1977b73747f621, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionRadius: 5
-  explosionForce: 5
+  explosionRadius: 2
+  explosionForce: 10
   radiusIndicator: {fileID: 574265309071314351}
 --- !u!65 &3744541197511105721
 BoxCollider:
@@ -78,8 +78,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.12, z: 0.5}
-  m_Center: {x: 0, y: 0.044, z: 0}
+  m_Size: {x: 0.5, y: 0.105, z: 0.5}
+  m_Center: {x: 0, y: 0.045, z: 0}
 --- !u!1 &574265309071314351
 GameObject:
   m_ObjectHideFlags: 0
