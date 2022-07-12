@@ -15,12 +15,12 @@ public class Player : MonoBehaviour
 {
     //# Public Variables 
     public float gravity = -9.81f;
-    public float friction = 5f;  //< while on ground
+    public float friction = 3f;  //< while on ground
     public float drag = 1f;      //< while in air
     public int maxExplosivesInWorld;
-    public GameObject explosiveSpawnOrigin;
-    public GameObject DEBUGExplosiveSpawn;
     public GameObject explosivePrefab;
+    public GameObject explosiveSpawnOrigin;
+    public GameObject explosiveSpawnOriginDebug;
     public List<GameObject> ExplosivesInWorld;
 
     //public bool canSpawnExplosives;
@@ -40,7 +40,8 @@ public class Player : MonoBehaviour
 
         if (GameManager.Instance.DebugWithoutHMD)           //< Every change for debugging without an HMD goes here
         {
-            explosiveSpawnOrigin = DEBUGExplosiveSpawn;
+            explosiveSpawnOrigin = explosiveSpawnOriginDebug;
+            controller.center = Vector3.zero;
         }
     }
 
