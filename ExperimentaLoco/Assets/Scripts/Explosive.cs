@@ -28,6 +28,16 @@ public class Explosive : MonoBehaviour
     {
         radiusIndicator.transform.localScale = Vector3.one * 2 * explosionRadius;  //< Needs to be multiplied by 2 for the radius to diameter conversion 
         explosionSound = GetComponent<AudioSource>();
+
+        stickyCollider.isTrigger = true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+            return;
+
+        Debug.Log("Collided with something that isn't the player.");
     }
 
     //# Public Methods 
@@ -62,12 +72,12 @@ public class Explosive : MonoBehaviour
     }
 
     //# Private Methods 
-
     IEnumerator DestroyAfterSoundDone()
     {
         float clipDuration = explosionSound.clip.length;
         yield return new WaitForSeconds(clipDuration);
         Despawn();
     }
+
     //# Input Event Handlers 
 }
