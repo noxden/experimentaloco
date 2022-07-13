@@ -65,7 +65,7 @@ public class Player : MonoBehaviour
         velocity.x = DecreaseVelocity(velocity.x);
         velocity.z = DecreaseVelocity(velocity.z);
 
-        Debug.Log($"Player: {transform.position.y} | Camera: {mainCamera.transform.position.y} | Center: {mainCamera.transform.position.y-1}");
+        //Debug.Log($"Player: {transform.position.y} | Camera: {mainCamera.transform.position.y} | Center: {mainCamera.transform.position.y-1}", this);
     }
 
     //# Public Methods 

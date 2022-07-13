@@ -15,17 +15,19 @@ public class Explosive : MonoBehaviour
     public int explosionRadius = 5;
     public int explosionForce = 5;
     public GameObject radiusIndicator;
-    public AudioSource explosionSound;
+    public Collider stickyCollider;
 
     //public bool canBeActivated; //< If for some reason, a bomb just cannot / must not be activated.
     //public bool isSelected; //< For a later iteration, where you can detonate bombs you look at.
 
     //# Private Variables 
+    private AudioSource explosionSound;
 
     //# Monobehaviour Events 
     private void Start()
     {
         radiusIndicator.transform.localScale = Vector3.one * 2 * explosionRadius;  //< Needs to be multiplied by 2 for the radius to diameter conversion 
+        explosionSound = GetComponent<AudioSource>();
     }
 
     //# Public Methods 
