@@ -66,7 +66,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionRadius: 2
-  explosionForce: 10
+  explosionForce: 15
   radiusIndicator: {fileID: 574265309071314351}
   explosionSound: {fileID: 3087880403644221057}
 --- !u!65 &3744541197511105721

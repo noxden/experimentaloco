@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
 
     //# Private Variables 
     private CharacterController controller;
+    public Camera mainCamera {private set; get;}
     [SerializeField] private Vector3 velocity;   //< SerializeField for debugging purposes.
     private bool isGrounded;
 
@@ -38,11 +39,12 @@ public class Player : MonoBehaviour
     private void Start()
     {
         controller = GetComponent<CharacterController>();   //< Set up CharacterController reference
+        mainCamera = GetComponentInChildren<Camera>();
 
         if (GameManager.Instance.DebugWithoutHMD)           //< Every change for debugging without an HMD goes here
         {
             explosiveSpawnOrigin = explosiveSpawnOriginDebug;
-            controller.center = Vector3.zero;
+            controller.center = new Vector3(0f, -0.7f, 0f); //< So that the camera is at approximately eye level, even without an hmd
 
             LeftHand.SetActive(false);
             RightHand.SetActive(false);
@@ -62,6 +64,8 @@ public class Player : MonoBehaviour
 
         velocity.x = DecreaseVelocity(velocity.x);
         velocity.z = DecreaseVelocity(velocity.z);
+
+        Debug.Log($"Player: {transform.position.y} | Camera: {mainCamera.transform.position.y} | Center: {mainCamera.transform.position.y-1}");
     }
 
     //# Public Methods 

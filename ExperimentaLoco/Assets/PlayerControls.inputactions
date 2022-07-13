@@ -156,7 +156,7 @@
                 {
                     "name": "",
                     "id": "1635d3fe-58b6-4ba9-a4e2-f4b964f6b5c8",
-                    "path": "<XRController>/{Primary2DAxis}",
+                    "path": "<OculusTouchController>{LeftHand}/thumbstick",
                     "interactions": "",
                     "processors": "",
                     "groups": "XR",
@@ -255,7 +255,7 @@
                 {
                     "name": "",
                     "id": "8255d333-5683-4943-a58a-ccb207ff1dce",
-                    "path": "<XRController>/{PrimaryAction}",
+                    "path": "<OculusTouchController>{LeftHand}/gripPressed",
                     "interactions": "",
                     "processors": "",
                     "groups": "XR",
@@ -277,7 +277,7 @@
                 {
                     "name": "",
                     "id": "aef84438-eb7e-4f4d-810a-625ff46660dd",
-                    "path": "*/{SecondaryAction}",
+                    "path": "<OculusTouchController>{RightHand}/triggerPressed",
                     "interactions": "",
                     "processors": "",
                     "groups": "XR",

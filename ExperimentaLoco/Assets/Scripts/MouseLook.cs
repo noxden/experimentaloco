@@ -37,6 +37,7 @@ public class MouseLook : MonoBehaviour
 
         xRotation -= mouse.y;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        //Debug.Log($"Input: {lookInput.ReadValue<Vector2>().y} | xRotation: ");
 
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         playerTransform.Rotate(Vector3.up * mouse.x);
