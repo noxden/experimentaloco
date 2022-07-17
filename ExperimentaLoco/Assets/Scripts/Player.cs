@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Travel & Transit in VR (by Philip Hausmeier)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 11-07-22
+// Last changed: 17-07-22
 //================================================================
 
 using System.Collections;
@@ -76,11 +76,17 @@ public class Player : MonoBehaviour
 
     public void ThrowExplosive()
     {
-        Debug.Log($"Player.ThrowExplosive has been called.");
+        if (maxExplosivesInWorld == 0)
+        {
+            Debug.Log($"Player.ThrowExplosive: You cannot throw any explosives, as maxExplosivesInWorld is currently set to 0.");
+            return;
+        }
+        
+        Debug.Log($"Player.ThrowExplosive: Throwing explosive!");
         GameObject newExplosive = Instantiate(explosivePrefab, explosiveSpawnOrigin.transform.position, Quaternion.identity);
         ExplosivesInWorld.Add(newExplosive);
 
-        if (maxExplosivesInWorld <= 0)
+        if (maxExplosivesInWorld <= -1)
             return;
         else if (ExplosivesInWorld.Count > maxExplosivesInWorld)
         {
@@ -98,7 +104,7 @@ public class Player : MonoBehaviour
             return;
         }
 
-        Debug.Log($"Player.DetonateExplosive has been called.");
+        Debug.Log($"Player.DetonateExplosive: Detonating explosive!.");
         List<GameObject> Reversed_ExplosivesInWorld = ExplosivesInWorld;
         Reversed_ExplosivesInWorld.Reverse();
         GameObject CurrentExplosive = Reversed_ExplosivesInWorld[0];
