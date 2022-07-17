@@ -100,11 +100,11 @@ public class Explosive : MonoBehaviour
         //> Constrain / Freeze rigidbody
         Debug.Log("Collided with something that isn't the player.");    //< Because it can't collide with the player due to collision layers
         rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-        Debug.DrawRay(transform.position, transform.up, Color.red, 10, false);
-
+        
+        //> Align explosive to surface
         Vector3 surfaceNormal = collision.contacts[0].normal;
-        Debug.DrawRay(collision.contacts[0].point, surfaceNormal, Color.green, 10, false);
-
+        //Debug.DrawRay(collision.contacts[0].point, surfaceNormal, Color.green, 10, false);
+        //Debug.DrawRay(transform.position, transform.up, Color.red, 10, false);  //< Draws a debug ray indicating explosive's transform.up
         transform.up = surfaceNormal;
     }
 
