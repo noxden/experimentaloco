@@ -2,7 +2,8 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Travel & Transit in VR (by Philip Hausmeier)
 // Script by:    Daniel Heilmann (771144), Lili Weirich (769701)
-// Last changed: 13-07-22
+// With tips by: Jesco
+// Last changed: 17-07-22
 //================================================================
 
 using System.Collections;
@@ -14,6 +15,7 @@ public class Explosive : MonoBehaviour
     //# Public Variables 
     public int explosionRadius = 5;
     public int explosionForce = 5;
+    public bool hideRangeIndicator = false;
     public GameObject radiusIndicator;
 
     //public bool canBeActivated; //< If for some reason, a bomb just cannot / must not be activated.
@@ -35,7 +37,12 @@ public class Explosive : MonoBehaviour
 
     private void Start()
     {
-        radiusIndicator.transform.localScale = Vector3.one * 2 * explosionRadius;  //< Needs to be multiplied by 2 for the radius to diameter conversion 
+        if (hideRangeIndicator)
+            radiusIndicator.SetActive(false);   //< Disable the indicator if hideRangeIndicator is true
+        else
+            radiusIndicator.transform.localScale = Vector3.one * 2 * explosionRadius;  //< Needs to be multiplied by 2 for the radius to diameter conversion 
+
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -95,19 +102,10 @@ public class Explosive : MonoBehaviour
         rigidbody.constraints = RigidbodyConstraints.FreezeAll;
         Debug.DrawRay(transform.position, transform.up, Color.red, 10, false);
 
-        Vector3 collisionNormal = collision.contacts[0].normal;
-        Debug.DrawRay(collision.contacts[0].point, collisionNormal, Color.green, 10, false);
+        Vector3 surfaceNormal = collision.contacts[0].normal;
+        Debug.DrawRay(collision.contacts[0].point, surfaceNormal, Color.green, 10, false);
 
-        if (collisionNormal.x != 0)         //< so if (collisionNormal == Vector3.right || collisionNormal == Vector3.left)
-            transform.rotation = Quaternion.LookRotation(Vector3.forward, collisionNormal);
-        else if (collisionNormal.z != 0)    //< so if (collisionNormal == Vector3.forward || collisionNormal == Vector3.back)
-            transform.rotation = Quaternion.LookRotation(Vector3.left, collisionNormal);
-        else if (collisionNormal.y != 0)
-            transform.rotation = Quaternion.LookRotation(Vector3.back, collisionNormal);
-
-        Debug.Log($"Transform Rotation: {transform.rotation}");
-        Debug.Log($"Environment Normal: {collision.contacts[0].normal}");
-        Debug.Log($"Quaternion Euler: {Quaternion.Euler(collisionNormal)}");
+        transform.up = surfaceNormal;
     }
 
     //# Input Event Handlers 
