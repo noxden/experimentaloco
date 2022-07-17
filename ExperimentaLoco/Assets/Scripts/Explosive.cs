@@ -14,7 +14,7 @@ public class Explosive : MonoBehaviour
 {
     //# Public Variables 
     public int explosionRadius = 5;
-    public int explosionForce = 5;
+    //public int explosionForce = 5;
     public bool hideRangeIndicator = false;
     public GameObject radiusIndicator;
 
@@ -51,7 +51,7 @@ public class Explosive : MonoBehaviour
     }
 
     //# Public Methods 
-    public void Detonate(Player player)  //> Applies velocity to all players within explosionRadius
+    public void Detonate(Player player, int explosionForce)  //> Applies velocity to all players within explosionRadius
     {
         Debug.Log($"{this.name} has been detonated!");
 

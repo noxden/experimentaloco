@@ -31,8 +31,9 @@ public class Player : MonoBehaviour
 
     //# Private Variables 
     private CharacterController controller;
-    public Camera mainCamera {private set; get;}
+    public Camera mainCamera { private set; get; }
     [SerializeField] private Vector3 velocity;   //< SerializeField for debugging purposes.
+    private int explosionForce = 5;
     private bool isGrounded;
 
     //# Monobehaviour Events 
@@ -81,7 +82,7 @@ public class Player : MonoBehaviour
             Debug.Log($"Player.ThrowExplosive: You cannot throw any explosives, as maxExplosivesInWorld is currently set to 0.");
             return;
         }
-        
+
         Debug.Log($"Player.ThrowExplosive: Throwing explosive!");
         GameObject newExplosive = Instantiate(explosivePrefab, explosiveSpawnOrigin.transform.position, Quaternion.identity);
         ExplosivesInWorld.Add(newExplosive);
@@ -110,7 +111,7 @@ public class Player : MonoBehaviour
         GameObject CurrentExplosive = Reversed_ExplosivesInWorld[0];
 
         ExplosivesInWorld.Remove(CurrentExplosive);
-        CurrentExplosive.GetComponent<Explosive>().Detonate(this);
+        CurrentExplosive.GetComponent<Explosive>().Detonate(this, explosionForce);
     }
 
     //# Private Methods 
@@ -144,6 +145,15 @@ public class Player : MonoBehaviour
         return ((value <= stopThreshold && value > 0) || (value >= -stopThreshold && value < 0));
     }
 
+    private void TweakExplosionForce(int change)
+    {
+        explosionForce += change;
+        //Mathf.Clamp(explosionForce, 0, 20);   //< Without clamping is actually a lot of fun
+        Mathf.Clamp(explosionForce, -50, 50);
+
+        Debug.Log($"Player.TweakExplosionForce: Changed global explosion force to {explosionForce}.");
+    }
+
     //# Input Event Handlers 
     private void OnThrow()
     {
@@ -153,5 +163,15 @@ public class Player : MonoBehaviour
     private void OnDetonate()
     {
         DetonateExplosive();
+    }
+
+    private void OnIncreaseForce()
+    {
+        TweakExplosionForce(1);
+    }
+
+    private void OnDecreaseForce()
+    {
+        TweakExplosionForce(-1);
     }
 }
