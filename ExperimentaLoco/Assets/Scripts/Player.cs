@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     public GameObject explosiveSpawnOriginDebug;
     public GameObject LeftHand;
     public GameObject RightHand;
+    public HandDisplay handDisplay;
     public List<GameObject> ExplosivesInWorld;
 
     //public bool canSpawnExplosives;
@@ -37,11 +38,15 @@ public class Player : MonoBehaviour
     private bool isGrounded;
 
     //# Monobehaviour Events 
-    private void Start()
+    private void Awake()
     {
         controller = GetComponent<CharacterController>();   //< Set up CharacterController reference
         mainCamera = GetComponentInChildren<Camera>();
-
+        handDisplay = GetComponentInChildren<HandDisplay>();
+    }
+    private void Start()
+    {
+        handDisplay.UpdateDisplay();
         if (GameManager.Instance.DebugWithoutHMD)           //< Every change for debugging without an HMD goes here
         {
             explosiveSpawnOrigin = explosiveSpawnOriginDebug;
@@ -114,6 +119,12 @@ public class Player : MonoBehaviour
         CurrentExplosive.GetComponent<Explosive>().Detonate(this, explosionForce);
     }
 
+    public int GetExplosionForce()
+    {
+        Debug.Log($"Player.GetExplosionForce: Returning current explosion force ({explosionForce}).");
+        return explosionForce;
+    }
+
     //# Private Methods 
     private float DecreaseVelocity(float velocity)
     {
@@ -168,10 +179,12 @@ public class Player : MonoBehaviour
     private void OnIncreaseForce()
     {
         TweakExplosionForce(1);
+        handDisplay.UpdateDisplay();
     }
 
     private void OnDecreaseForce()
     {
         TweakExplosionForce(-1);
+        handDisplay.UpdateDisplay();
     }
 }
