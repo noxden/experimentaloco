@@ -38,6 +38,8 @@ public class Explosive : MonoBehaviour
             radiusIndicator.SetActive(false);   //< Disable the indicator if hideRangeIndicator is true
         else
             radiusIndicator.transform.localScale = Vector3.one * 2 * explosionRadius;  //< Needs to be multiplied by 2 for the radius to diameter conversion 
+
+        StartCoroutine(SpawnAnimation());
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -48,15 +50,15 @@ public class Explosive : MonoBehaviour
     //# Public Methods 
     public void Detonate(Player player, int explosionForce)  //> Applies velocity to all players within explosionRadius
     {
-        Debug.Log($"{this.name} has been detonated!");
+        //Debug.Log($"{this.name} has been detonated!");
 
-        Vector3 playerCenter = player.GetCameraPosition() + new Vector3(0,-1,0);
+        Vector3 playerCenter = player.GetCameraPosition() + new Vector3(0, -1, 0);
         //< The "Center" / Impact point on the player is always 1 meter below the camera, which should roughly be hip height. Should probably be done via get method in player.
         Vector3 vectorToPlayer = playerCenter - this.transform.position;
 
         if (vectorToPlayer.magnitude <= explosionRadius)
         {
-            Debug.Log($"{this.name} has been detonated near player {player.gameObject.name}!");
+            //Debug.Log($"{this.name} has been detonated near player {player.gameObject.name}!");
             player.Launch(vectorToPlayer.normalized * explosionForce);
         }
 
@@ -85,7 +87,7 @@ public class Explosive : MonoBehaviour
         StartCoroutine(DestroyAfterSoundDone());
     }
 
-    IEnumerator DestroyAfterSoundDone()
+    private IEnumerator DestroyAfterSoundDone()
     {
         float clipDuration = audioSource.clip.length;
         yield return new WaitForSeconds(clipDuration);
@@ -95,13 +97,28 @@ public class Explosive : MonoBehaviour
     private void AttachToSurface(Collision collision)
     {
         //> Constrain / Freeze rigidbody
-        Debug.Log("Collided with something that isn't the player.");    //< Because it can't collide with the player due to collision layers
+        //Debug.Log("Collided with something that isn't the player.");    //< Because it can't collide with the player due to collision layers
         rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-        
+
         //> Align explosive to surface
         Vector3 surfaceNormal = collision.contacts[0].normal;
         //Debug.DrawRay(collision.contacts[0].point, surfaceNormal, Color.green, 10, false);
         transform.up = surfaceNormal;
+    }
+
+    private IEnumerator SpawnAnimation()
+    {
+        Vector3 startingScale = transform.localScale;
+        float animationTime = 0.1f;
+        float stepSize = 1 / animationTime;
+        float delta = 0;
+
+        while (delta < 1)
+        {
+            transform.localScale = Vector3.Lerp(Vector3.zero, startingScale, delta);
+            delta += stepSize * Time.deltaTime;
+            yield return null;
+        }
     }
 
     //# Input Event Handlers 
