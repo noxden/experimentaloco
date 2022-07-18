@@ -66,7 +66,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionRadius: 2
-  hideRangeIndicator: 1
+  hideRangeIndicator: 0
   radiusIndicator: {fileID: 574265309071314351}
 --- !u!65 &3744541197511105721
 BoxCollider:

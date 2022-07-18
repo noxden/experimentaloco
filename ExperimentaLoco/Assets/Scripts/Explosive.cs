@@ -55,8 +55,8 @@ public class Explosive : MonoBehaviour
     {
         Debug.Log($"{this.name} has been detonated!");
 
-        Vector3 playerCenter = new Vector3(player.mainCamera.transform.position.x, player.mainCamera.transform.position.y - 1f, player.mainCamera.transform.position.z);
-        //< The "Center" / Impact point on the player is always 1 meter below the camera, which should roughly be hip height. Should probably be done via get method in player
+        Vector3 playerCenter = player.GetCameraPosition() + new Vector3(0,-1,0);
+        //< The "Center" / Impact point on the player is always 1 meter below the camera, which should roughly be hip height. Should probably be done via get method in player.
         Vector3 vectorToPlayer = playerCenter - this.transform.position;
 
         if (vectorToPlayer.magnitude <= explosionRadius)

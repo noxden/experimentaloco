@@ -13,14 +13,16 @@ using UnityEngine.UI;
 public class HandDisplay : MonoBehaviour
 {
     //# Public Variables 
-    
+
 
     //# Private Variables 
     private Player player;
     private Text display;
 
     //# Monobehaviour Events 
-    private void Awake()
+
+    //# Public Methods 
+    public void Setup()
     {
         player = GetComponentInParent<Player>();
         Debug.Log($"Player is {player.name}");
@@ -28,7 +30,6 @@ public class HandDisplay : MonoBehaviour
         Debug.Log($"Display is {display.name}");
     }
 
-    //# Public Methods 
     public void UpdateDisplay()
     {
         int _explosionForce = player.GetExplosionForce();
@@ -37,15 +38,16 @@ public class HandDisplay : MonoBehaviour
     }
 
     //# Input Event Handlers 
-    private void OnIncreaseForce()
-    {
-        Debug.Log($"HandDisplay.OnIncreaseForce was triggered.");
-        UpdateDisplay();
-    }
+    //> These don't work, probably because only one GameObject can receive a message?
+    // private void OnIncreaseForce()
+    // {
+    //     Debug.Log($"HandDisplay.OnIncreaseForce was triggered.");
+    //     UpdateDisplay();
+    // }
 
-    private void OnDecreaseForce()
-    {
-        Debug.Log($"HandDisplay.OnDecreaseForce was triggered.");
-        UpdateDisplay();
-    }
+    // private void OnDecreaseForce()
+    // {
+    //     Debug.Log($"HandDisplay.OnDecreaseForce was triggered.");
+    //     UpdateDisplay();
+    // }
 }
