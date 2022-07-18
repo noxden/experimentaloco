@@ -3,7 +3,7 @@
 // Course:       Travel & Transit in VR (by Philip Hausmeier)
 // Script by:    Daniel Heilmann (771144), Lili Weirich (769701)
 // With tips by: Jesco
-// Last changed: 17-07-22
+// Last changed: 18-07-22
 //================================================================
 
 using System.Collections;
@@ -24,6 +24,8 @@ public class Explosive : MonoBehaviour
     //# Private Variables 
     private AudioSource audioSource;
     private new Rigidbody rigidbody;
+
+    [SerializeField] private GameObject Particles;
 
     //# Monobehaviour Events 
     /// <summary>
@@ -79,6 +81,8 @@ public class Explosive : MonoBehaviour
     {
         audioSource.Play();
         MeshRenderer[] allMeshRenderers = GetComponentsInChildren<MeshRenderer>();
+
+        Instantiate(Particles, transform.position, Quaternion.identity);
 
         foreach (MeshRenderer entry in allMeshRenderers)
         {
