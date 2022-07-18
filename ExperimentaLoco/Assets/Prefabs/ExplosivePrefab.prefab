@@ -68,6 +68,7 @@ MonoBehaviour:
   explosionRadius: 2
   explosionForce: 15
   radiusIndicator: {fileID: 574265309071314351}
+  Particles: {fileID: 995041244645999059, guid: f5fb389a25e90034abd2321618c9cb48, type: 3}
 --- !u!65 &3744541197511105721
 BoxCollider:
   m_ObjectHideFlags: 0
