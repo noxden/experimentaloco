@@ -14,7 +14,6 @@ public class Explosive : MonoBehaviour
 {
     //# Public Variables 
     public int explosionRadius = 5;
-    //public int explosionForce = 5;
     public bool hideRangeIndicator = false;
     public GameObject radiusIndicator;
 
@@ -24,13 +23,9 @@ public class Explosive : MonoBehaviour
     //# Private Variables 
     private AudioSource audioSource;
     private new Rigidbody rigidbody;
-
     [SerializeField] private GameObject Particles;
 
     //# Monobehaviour Events 
-    /// <summary>
-    /// Awake is called when the script instance is being loaded.
-    /// </summary>
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
@@ -43,8 +38,6 @@ public class Explosive : MonoBehaviour
             radiusIndicator.SetActive(false);   //< Disable the indicator if hideRangeIndicator is true
         else
             radiusIndicator.transform.localScale = Vector3.one * 2 * explosionRadius;  //< Needs to be multiplied by 2 for the radius to diameter conversion 
-
-
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -67,6 +60,8 @@ public class Explosive : MonoBehaviour
             player.Launch(vectorToPlayer.normalized * explosionForce);
         }
 
+        //> Play VFX and SFX
+        Instantiate(Particles, transform.position, Quaternion.identity);
         PlayExplosionSound();
     }
 
@@ -81,8 +76,6 @@ public class Explosive : MonoBehaviour
     {
         audioSource.Play();
         MeshRenderer[] allMeshRenderers = GetComponentsInChildren<MeshRenderer>();
-
-        Instantiate(Particles, transform.position, Quaternion.identity);
 
         foreach (MeshRenderer entry in allMeshRenderers)
         {
@@ -108,7 +101,6 @@ public class Explosive : MonoBehaviour
         //> Align explosive to surface
         Vector3 surfaceNormal = collision.contacts[0].normal;
         //Debug.DrawRay(collision.contacts[0].point, surfaceNormal, Color.green, 10, false);
-        //Debug.DrawRay(transform.position, transform.up, Color.red, 10, false);  //< Draws a debug ray indicating explosive's transform.up
         transform.up = surfaceNormal;
     }
 
