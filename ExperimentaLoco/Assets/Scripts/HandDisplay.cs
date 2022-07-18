@@ -22,7 +22,7 @@ public class HandDisplay : MonoBehaviour
     //# Monobehaviour Events 
 
     //# Public Methods 
-    public void Setup()
+    public void Awake()
     {
         player = GetComponentInParent<Player>();
         Debug.Log($"Player is {player.name}");
@@ -33,7 +33,6 @@ public class HandDisplay : MonoBehaviour
     public void UpdateDisplay()
     {
         int _explosionForce = player.GetExplosionForce();
-        Debug.Log($"_explosionForce is {_explosionForce}");
         display.text = _explosionForce.ToString();
     }
 

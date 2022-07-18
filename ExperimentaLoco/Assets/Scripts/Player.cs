@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
     private HandDisplay handDisplay;
     private Camera mainCamera;
     [SerializeField] private Vector3 velocity;   //< SerializeField for debugging purposes.
-    private int explosionForce = 5;
+    private int explosionForce = 10;
     private bool isGrounded;
 
     //# Monobehaviour Events 
@@ -44,6 +44,7 @@ public class Player : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();   //< Set up CharacterController reference
         mainCamera = GetComponentInChildren<Camera>();
+        handDisplay = GetComponentInChildren<HandDisplay>();
     }
     private void Start()
     {
@@ -56,8 +57,6 @@ public class Player : MonoBehaviour
             ControllerRight.transform.SetParent(DebugAnchorRight.transform, false);
         }
 
-        handDisplay = ControllerRight.GetComponentInChildren<HandDisplay>();
-        handDisplay.Setup();
         handDisplay.UpdateDisplay();
     }
 
@@ -123,7 +122,6 @@ public class Player : MonoBehaviour
 
     public int GetExplosionForce()
     {
-        Debug.Log($"Player.GetExplosionForce: Returning current explosion force ({explosionForce}).");
         return explosionForce;
     }
 
@@ -166,10 +164,10 @@ public class Player : MonoBehaviour
     private void TweakExplosionForce(int change)
     {
         explosionForce += change;
-        Mathf.Clamp(explosionForce, 0, 20);   //< Without clamping is actually a lot of fun
-        //Mathf.Clamp(explosionForce, -50, 50);
+        explosionForce = Mathf.Clamp(explosionForce, 0, 20);   //< Without clamping is actually a lot of fun
+        //explosionForce = Mathf.Clamp(explosionForce, -50, 50);
 
-        Debug.Log($"Player.TweakExplosionForce: Changed global explosion force to {explosionForce}.");
+        Debug.Log($"Player.TweakExplosionForce: Changed explosion force of {name} to {explosionForce}.");
         handDisplay.UpdateDisplay();
     }
 
