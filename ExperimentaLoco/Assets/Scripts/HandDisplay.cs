@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class HandDisplay : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class HandDisplay : MonoBehaviour
 
     //# Private Variables 
     private Player player;
-    private Text display;
+    private TextMeshProUGUI display;
 
     //# Monobehaviour Events 
 
@@ -26,7 +27,7 @@ public class HandDisplay : MonoBehaviour
     {
         player = GetComponentInParent<Player>();
         Debug.Log($"Player is {player.name}");
-        display = GetComponentInChildren<Text>();
+        display = GetComponentInChildren<TextMeshProUGUI>();
         Debug.Log($"Display is {display.name}");
     }
 
