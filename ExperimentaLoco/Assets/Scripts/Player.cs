@@ -18,10 +18,12 @@ public class Player : MonoBehaviour
     public float drag = 1f;      //< while in air
     public int maxExplosivesInWorld;
     public GameObject explosivePrefab;
-    public GameObject explosiveSpawnOrigin;
-    public GameObject explosiveSpawnOriginDebug;
-    public GameObject LeftHand;
-    public GameObject RightHand;
+    public Transform explosiveSpawnOrigin;
+    public GameObject ControllerLeft;
+    public GameObject ControllerRight;
+    public GameObject DebugAnchorLeft;
+    public GameObject DebugAnchorRight;
+
     public List<GameObject> ExplosivesInWorld;
 
     //public bool canSpawnExplosives;
@@ -31,25 +33,31 @@ public class Player : MonoBehaviour
 
     //# Private Variables 
     private CharacterController controller;
-    public Camera mainCamera { private set; get; }
+    private HandDisplay handDisplay;
+    private Camera mainCamera;
     [SerializeField] private Vector3 velocity;   //< SerializeField for debugging purposes.
-    private int explosionForce = 5;
+    private int explosionForce = 10;
     private bool isGrounded;
 
     //# Monobehaviour Events 
-    private void Start()
+    private void Awake()
     {
         controller = GetComponent<CharacterController>();   //< Set up CharacterController reference
         mainCamera = GetComponentInChildren<Camera>();
-
+        handDisplay = GetComponentInChildren<HandDisplay>();
+    }
+    private void Start()
+    {
         if (GameManager.Instance.DebugWithoutHMD)           //< Every change for debugging without an HMD goes here
         {
-            explosiveSpawnOrigin = explosiveSpawnOriginDebug;
-            controller.center = new Vector3(0f, -0.7f, 0f); //< So that the camera is at approximately eye level, even without an hmd
+            //explosiveSpawnOrigin = explosiveSpawnOriginDebug;
+            controller.center = new Vector3(0f, -0.7f, 0f);     //< Adjusts camera position so that it is approximately at eye level, even without an hmd
 
-            LeftHand.SetActive(false);
-            RightHand.SetActive(false);
+            ControllerLeft.transform.SetParent(DebugAnchorLeft.transform, false);
+            ControllerRight.transform.SetParent(DebugAnchorRight.transform, false);
         }
+
+        handDisplay.UpdateDisplay();
     }
 
     private void Update()
@@ -65,8 +73,6 @@ public class Player : MonoBehaviour
 
         velocity.x = DecreaseVelocity(velocity.x);
         velocity.z = DecreaseVelocity(velocity.z);
-
-        //Debug.Log($"Player: {transform.position.y} | Camera: {mainCamera.transform.position.y} | Center: {mainCamera.transform.position.y-1}", this);
     }
 
     //# Public Methods 
@@ -114,6 +120,16 @@ public class Player : MonoBehaviour
         CurrentExplosive.GetComponent<Explosive>().Detonate(this, explosionForce);
     }
 
+    public int GetExplosionForce()
+    {
+        return explosionForce;
+    }
+
+    public Vector3 GetCameraPosition()
+    {
+        return mainCamera.transform.position;
+    }
+
     //# Private Methods 
     private float DecreaseVelocity(float velocity)
     {
@@ -148,10 +164,11 @@ public class Player : MonoBehaviour
     private void TweakExplosionForce(int change)
     {
         explosionForce += change;
-        //Mathf.Clamp(explosionForce, 0, 20);   //< Without clamping is actually a lot of fun
-        Mathf.Clamp(explosionForce, -50, 50);
+        explosionForce = Mathf.Clamp(explosionForce, 0, 20);   //< Without clamping is actually a lot of fun
+        //explosionForce = Mathf.Clamp(explosionForce, -50, 50);
 
-        Debug.Log($"Player.TweakExplosionForce: Changed global explosion force to {explosionForce}.");
+        Debug.Log($"Player.TweakExplosionForce: Changed explosion force of {name} to {explosionForce}.");
+        handDisplay.UpdateDisplay();
     }
 
     //# Input Event Handlers 
