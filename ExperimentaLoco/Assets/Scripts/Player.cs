@@ -89,7 +89,7 @@ public class Player : MonoBehaviour
             return;
         }
 
-        Debug.Log($"Player.ThrowExplosive: Throwing explosive!");
+        //Debug.Log($"Player.ThrowExplosive: Throwing explosive!");
         GameObject newExplosive = Instantiate(explosivePrefab, explosiveSpawnOrigin.transform.position, Quaternion.identity);
         ExplosivesInWorld.Add(newExplosive);
 
@@ -111,7 +111,7 @@ public class Player : MonoBehaviour
             return;
         }
 
-        Debug.Log($"Player.DetonateExplosive: Detonating explosive!.");
+        //Debug.Log($"Player.DetonateExplosive: Detonating explosive!.");
         List<GameObject> Reversed_ExplosivesInWorld = ExplosivesInWorld;
         Reversed_ExplosivesInWorld.Reverse();
         GameObject CurrentExplosive = Reversed_ExplosivesInWorld[0];
@@ -164,7 +164,7 @@ public class Player : MonoBehaviour
     private void TweakExplosionForce(int change)
     {
         explosionForce += change;
-        explosionForce = Mathf.Clamp(explosionForce, 0, 20);   //< Without clamping is actually a lot of fun
+        explosionForce = Mathf.Clamp(explosionForce, 1, 20);   //< Without clamping is actually a lot of fun
         //explosionForce = Mathf.Clamp(explosionForce, -50, 50);
 
         Debug.Log($"Player.TweakExplosionForce: Changed explosion force of {name} to {explosionForce}.");
