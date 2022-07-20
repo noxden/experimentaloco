@@ -23,7 +23,8 @@ public class Explosive : MonoBehaviour
     //# Private Variables 
     private AudioSource audioSource;
     private new Rigidbody rigidbody;
-    [SerializeField] private GameObject Particles;
+    [SerializeField] private GameObject particlesPrefab;
+    private GameObject particlesGameObject;
 
     //# Monobehaviour Events 
     private void Awake()
@@ -63,12 +64,13 @@ public class Explosive : MonoBehaviour
         }
 
         //> Play VFX and SFX
-        Instantiate(Particles, transform.position, Quaternion.identity);
+        particlesGameObject = Instantiate(particlesPrefab, transform.position, Quaternion.identity);
         PlayExplosionSound();
     }
 
     public void Despawn()
     {
+        Destroy(particlesGameObject);
         Destroy(this.gameObject);
     }
 
