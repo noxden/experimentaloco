@@ -117,7 +117,7 @@ public class Player : MonoBehaviour
         GameObject CurrentExplosive = Reversed_ExplosivesInWorld[0];
 
         ExplosivesInWorld.Remove(CurrentExplosive);
-        CurrentExplosive.GetComponent<Explosive>().Detonate(this, explosionForce);
+        CurrentExplosive.GetComponent<Explosive>().Detonate(this, explosionForce*5);    //< Actual explosionForce is always 5 times the power displayed -> increasing power in steps of five when TweakExplosionForce is called
     }
 
     public int GetExplosionForce()
@@ -164,7 +164,7 @@ public class Player : MonoBehaviour
     private void TweakExplosionForce(int change)
     {
         explosionForce += change;
-        explosionForce = Mathf.Clamp(explosionForce, 1, 20);   //< Without clamping is actually a lot of fun
+        explosionForce = Mathf.Clamp(explosionForce, 1, 4);   //< Without clamping is actually a lot of fun
         //explosionForce = Mathf.Clamp(explosionForce, -50, 50);
 
         Debug.Log($"Player.TweakExplosionForce: Changed explosion force of {name} to {explosionForce}.");
