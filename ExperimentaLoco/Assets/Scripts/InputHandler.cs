@@ -2,9 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Travel & Transit in VR (by Philip Hausmeier)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 20-07-22
-//? Could maybe be improved by attaching a player input component to this, setting it to "Invoke Unity Events" and linking the private methods in here to those events, 
-//? instead of having to convert the action map into it's own class (here PlayerControls), which can't be edited as easily.
+// Last changed: 25-07-22
 //================================================================
 
 using System.Collections;
@@ -15,11 +13,24 @@ using UnityEngine.InputSystem;
 public class InputHandler : MonoBehaviour
 {
     //# Public Variables 
+    public static InputHandler Instance { set; get; }
     public Player player;
 
     //# Private Variables 
 
     //# Monobehaviour Events 
+    private void Awake()
+    {
+        if (Instance == null)   //< With this if-structure it is IMPOSSIBLE to create more than one instance.
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject); //< Referring to the gameObject, this singleton script (class) is attached to.
+        }
+        else
+        {
+            Destroy(this.gameObject);   //< If you somehow still get to create a new singleton gameobject regardless, destroy the new one.
+        }
+    }
 
     private void Start()
     {
@@ -36,12 +47,12 @@ public class InputHandler : MonoBehaviour
     {
         if (context.performed)
         {
-            Debug.Log($"InputHandler.Spawn has been called. -> Button is pressed.", this);
+            //Debug.Log($"InputHandler.Spawn has been called. -> Button is pressed.", this);
             player.OnSpawn();
         }
         if (context.canceled)
         {
-            Debug.Log($"InputHandler.Throw has been called. -> Button is released.", this);
+            //Debug.Log($"InputHandler.Throw has been called. -> Button is released.", this);
             player.OnThrow();
         }
     }
@@ -50,7 +61,7 @@ public class InputHandler : MonoBehaviour
     {
         if (context.performed)
         {
-            Debug.Log($"InputHandler.Detonate has been called.", this);
+            //Debug.Log($"InputHandler.Detonate has been called.", this);
             player.OnDetonate();
         }
     }
@@ -59,7 +70,7 @@ public class InputHandler : MonoBehaviour
     {
         if (context.performed)
         {
-            Debug.Log($"InputHandler.IncreaseForce has been called.", this);
+            //Debug.Log($"InputHandler.IncreaseForce has been called.", this);
             player.OnIncreaseForce();
         }
     }
@@ -68,7 +79,7 @@ public class InputHandler : MonoBehaviour
     {
         if (context.performed)
         {
-            Debug.Log($"InputHandler.DecreaseForce has been called.", this);
+            //Debug.Log($"InputHandler.DecreaseForce has been called.", this);
             player.OnDecreaseForce();
         }
     }

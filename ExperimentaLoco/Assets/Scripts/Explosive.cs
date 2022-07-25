@@ -44,10 +44,10 @@ public class Explosive : MonoBehaviour
         StartCoroutine(SpawnAnimation());
     }
 
-    private void OnCollisionEnter(Collision collision)
+    //> This continuous check guarantees that the explosive sticks to any surface and cannot fall through when held into a wall and then dropped.
+    private void OnCollisionStay(Collision collision)
     {
-        if (canAttachToSurface)
-            AttachToSurface(collision);
+        AttachToSurface(collision);
     }
 
     //# Public Methods 
@@ -102,7 +102,11 @@ public class Explosive : MonoBehaviour
     {
         //> Constrain / Freeze rigidbody
         //Debug.Log("Collided with something that isn't the player.");    //< Because it can't collide with the player due to collision layers
-        rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        if (canAttachToSurface)
+        {
+            rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            GetComponent<Collider>().enabled = false;
+        }
 
         //> Align explosive to surface
         Vector3 surfaceNormal = collision.contacts[0].normal;

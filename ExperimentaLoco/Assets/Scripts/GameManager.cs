@@ -11,9 +11,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { set; get; }
-
     //# Public Variables
+    public static GameManager Instance { set; get; }
     public bool DebugWithoutHMD;
 
     //# Private Variables 
