@@ -100,7 +100,7 @@ public class Player : MonoBehaviour
         if (heldExplosive != null)    //< Guard clause -> If player is already holding an explosive, don't spawn another one.
             return;
 
-        Debug.Log($"Player.SpawnExplosive: Spawning explosive!");
+        //Debug.Log($"Player.SpawnExplosive: Spawning explosive!");
 
         //> Instantiating and listing newly spawned explosive
         heldExplosive = Instantiate(explosivePrefab, explosiveSpawnOrigin.transform.position, Quaternion.identity);
@@ -126,7 +126,7 @@ public class Player : MonoBehaviour
         if (heldExplosive == null)    //< If explosive was detonated in hand (and thereby deleted & removed from "heldExplosive"), then there is no need to throw it anymore.
             return;
 
-        Debug.Log($"Player.ThrowExplosive: Throwing explosive!");
+        //Debug.Log($"Player.ThrowExplosive: Throwing explosive!");
 
         //> Making sure that the explosive is awake and then detaching it from hand.
         explosiveSpawnOrigin.GetComponent<FixedJoint>().connectedBody.WakeUp();
