@@ -126,17 +126,12 @@ public class Player : MonoBehaviour
             Debug.Log($"Player.DetonateExplosive: There are no explosives in the world.");
             return;
         }
-
         //Debug.Log($"Player.DetonateExplosive: Detonating explosive!.");
 
-        //> Saves newest entry in list "ExplosivesInWorld" as "CurrentExplosive"
-        List<GameObject> Reversed_ExplosivesInWorld = new List<GameObject>(ExplosivesInWorld);
-        Reversed_ExplosivesInWorld.Reverse();
-        GameObject CurrentExplosive = Reversed_ExplosivesInWorld[0];
-
         //> Removes newest explosive in ExplosivesInWorld from list and detonates it.
-        ExplosivesInWorld.Remove(CurrentExplosive);
-        CurrentExplosive.GetComponent<Explosive>().Detonate(this, explosionForce * 5);    //< Actual explosionForce is always 5 times the power displayed -> increasing power in steps of five when TweakExplosionForce is called
+        GameObject newestExplosive = ExplosivesInWorld[ExplosivesInWorld.Count-1];
+        ExplosivesInWorld.Remove(newestExplosive);
+        newestExplosive.GetComponent<Explosive>().Detonate(this, explosionForce * 5);    //< Actual explosionForce is always 5 times the power displayed -> increasing power in steps of five when TweakExplosionForce is called
     }
 
     private float DecreaseVelocity(float velocity)
