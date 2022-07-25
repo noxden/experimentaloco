@@ -18,17 +18,8 @@ public class InputHandler : MonoBehaviour
     public Player player;
 
     //# Private Variables 
-    private PlayerControls playerControls;
-    private InputAction throwInput;
-    private InputAction detonateInput;
-    private InputAction increaseForceInput;
-    private InputAction decreaseForceInput;
 
     //# Monobehaviour Events 
-    private void Awake()
-    {
-        playerControls = new PlayerControls();
-    }
 
     private void Start()
     {
@@ -38,64 +29,47 @@ public class InputHandler : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        throwInput = playerControls.Player.Throw;
-        throwInput.Enable();
-        throwInput.performed += Spawn;
-        throwInput.canceled += Throw;
-
-        detonateInput = playerControls.Player.Detonate;
-        detonateInput.Enable();
-        detonateInput.performed += Detonate;
-
-        increaseForceInput = playerControls.Player.IncreaseForce;
-        increaseForceInput.Enable();
-        increaseForceInput.performed += IncreaseForce;
-        
-        decreaseForceInput = playerControls.Player.DecreaseForce;
-        decreaseForceInput.Enable();
-        decreaseForceInput.performed += DecreaseForce;
-    }
-
-    private void OnDisable()
-    {
-        throwInput.Disable();
-        detonateInput.Disable();
-        increaseForceInput.Disable();
-        decreaseForceInput.Disable();
-    }
-
     //# Private Methods 
-    private void Spawn(InputAction.CallbackContext context)
-    {
-        Debug.Log($"InputHandler.Spawn has been called. -> Button is pressed.", this);
-        player.OnSpawn();
-    }
-
-    private void Throw(InputAction.CallbackContext context)
-    {
-        Debug.Log($"InputHandler.Throw has been called. -> Button is released.", this);
-        player.OnThrow();
-    }
-
-    private void Detonate(InputAction.CallbackContext context)
-    {
-        Debug.Log($"InputHandler.Detonate has been called.", this);
-        player.OnDetonate();
-    }
-
-    private void IncreaseForce(InputAction.CallbackContext context)
-    {
-        Debug.Log($"InputHandler.IncreaseForce has been called.", this);
-        player.OnIncreaseForce();
-    }
-
-    private void DecreaseForce(InputAction.CallbackContext context)
-    {
-        Debug.Log($"InputHandler.DecreaseForce has been called.", this);
-        player.OnDecreaseForce();
-    }
 
     //# Input Event Handlers 
+    public void OnThrowPressed(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            Debug.Log($"InputHandler.Spawn has been called. -> Button is pressed.", this);
+            player.OnSpawn();
+        }
+        if (context.canceled)
+        {
+            Debug.Log($"InputHandler.Throw has been called. -> Button is released.", this);
+            player.OnThrow();
+        }
+    }
+
+    public void OnDetonatePressed(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            Debug.Log($"InputHandler.Detonate has been called.", this);
+            player.OnDetonate();
+        }
+    }
+
+    public void OnIncreaseForcePressed(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            Debug.Log($"InputHandler.IncreaseForce has been called.", this);
+            player.OnIncreaseForce();
+        }
+    }
+
+    public void OnDecreaseForcePressed(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            Debug.Log($"InputHandler.DecreaseForce has been called.", this);
+            player.OnDecreaseForce();
+        }
+    }
 }
