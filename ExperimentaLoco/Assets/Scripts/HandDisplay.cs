@@ -15,7 +15,6 @@ public class HandDisplay : MonoBehaviour
 {
     //# Public Variables 
 
-
     //# Private Variables 
     private Player player;
     private TextMeshProUGUI display;

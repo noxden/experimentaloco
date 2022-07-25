@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
     private HandDisplay handDisplay;
     private Camera mainCamera;
     [SerializeField] private Vector3 velocity;   //< SerializeField for debugging purposes.
-    private int explosionForce = 10;
+    private int explosionForce = 1;
     private bool isGrounded;
 
     //# Monobehaviour Events 
@@ -81,7 +81,23 @@ public class Player : MonoBehaviour
         velocity += propulsion;
     }
 
-    public void ThrowExplosive()
+    public int GetExplosionForce()
+    {
+        return explosionForce;
+    }
+
+    public Vector3 GetCameraPosition()
+    {
+        return mainCamera.transform.position;
+    }
+
+    //# Private Methods 
+    private void SpawnExplosive()
+    {
+        //Debug.Log($"Player.SpawnExplosive: Spawning explosive!");
+    }
+
+    private void ThrowExplosive()
     {
         if (maxExplosivesInWorld == 0)
         {
@@ -103,7 +119,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void DetonateExplosive()
+    private void DetonateExplosive()
     {
         if (ExplosivesInWorld.Count == 0)
         {
@@ -117,20 +133,9 @@ public class Player : MonoBehaviour
         GameObject CurrentExplosive = Reversed_ExplosivesInWorld[0];
 
         ExplosivesInWorld.Remove(CurrentExplosive);
-        CurrentExplosive.GetComponent<Explosive>().Detonate(this, explosionForce*5);    //< Actual explosionForce is always 5 times the power displayed -> increasing power in steps of five when TweakExplosionForce is called
+        CurrentExplosive.GetComponent<Explosive>().Detonate(this, explosionForce * 5);    //< Actual explosionForce is always 5 times the power displayed -> increasing power in steps of five when TweakExplosionForce is called
     }
 
-    public int GetExplosionForce()
-    {
-        return explosionForce;
-    }
-
-    public Vector3 GetCameraPosition()
-    {
-        return mainCamera.transform.position;
-    }
-
-    //# Private Methods 
     private float DecreaseVelocity(float velocity)
     {
         if (velocity == 0)     //< Cancel out immediately if input value is 0. (Don't bother running this method at all if player is standing still.)
@@ -164,31 +169,73 @@ public class Player : MonoBehaviour
     private void TweakExplosionForce(int change)
     {
         explosionForce += change;
-        explosionForce = Mathf.Clamp(explosionForce, 1, 4);   //< Without clamping is actually a lot of fun
-        //explosionForce = Mathf.Clamp(explosionForce, -50, 50);
+        explosionForce = Mathf.Clamp(explosionForce, 1, 4); //< Four stages of explosionForce
 
         Debug.Log($"Player.TweakExplosionForce: Changed explosion force of {name} to {explosionForce}.");
         handDisplay.UpdateDisplay();
     }
 
     //# Input Event Handlers 
-    private void OnThrow()
+    public void OnSpawn()
+    {
+        SpawnExplosive();
+    }
+
+    public void OnThrow()
     {
         ThrowExplosive();
     }
 
-    private void OnDetonate()
+    public void OnDetonate()
     {
         DetonateExplosive();
     }
 
-    private void OnIncreaseForce()
+    public void OnIncreaseForce()
     {
         TweakExplosionForce(1);
     }
 
-    private void OnDecreaseForce()
+    public void OnDecreaseForce()
     {
         TweakExplosionForce(-1);
     }
+
+//! WIP Section
+//     //# Private Methods 
+//     private void SpawnExplosive()
+//     {
+//         Debug.Log($"Player.SpawnExplosive: Spawning explosive!");
+//         if (maxExplosivesInWorld == 0)
+//         {
+//             Debug.Log($"Player.SpawnExplosive: You cannot spawn any explosives, as maxExplosivesInWorld is currently set to 0.");
+//             return;
+//         }
+        
+//         //> Instantiating and configuring newly spawned explosive
+//         GameObject newExplosive = Instantiate(explosivePrefab, explosiveSpawnOrigin.transform.position, Quaternion.identity);
+//         newExplosive.GetComponent<Rigidbody>().isKinematic = true;
+//         newExplosive.transform.SetParent(explosiveSpawnOrigin, true);
+
+//         ExplosivesInWorld.Add(newExplosive);
+
+//         if (maxExplosivesInWorld <= -1)
+//             return;
+//         else if (ExplosivesInWorld.Count > maxExplosivesInWorld)
+//         {
+//             GameObject OldestExplosive = ExplosivesInWorld[0];
+//             ExplosivesInWorld.Remove(OldestExplosive);
+//             OldestExplosive.GetComponent<Explosive>().Despawn();
+//         }      
+//     }
+
+//     private void ThrowExplosive()
+//     {
+//         Debug.Log($"Player.ThrowExplosive: Throwing explosive!");
+
+//         List<GameObject> Reversed_ExplosivesInWorld = ExplosivesInWorld;
+//         Reversed_ExplosivesInWorld.Reverse();
+//         GameObject heldExplosive = Reversed_ExplosivesInWorld[0];
+//         heldExplosive.transform.SetParent(null);
+//         heldExplosive.GetComponent<Rigidbody>().isKinematic = false;
 }
