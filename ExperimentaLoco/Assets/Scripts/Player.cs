@@ -188,6 +188,7 @@ public class Player : MonoBehaviour
 
         Debug.Log($"Player.TweakExplosionForce: Changed explosion force of {name} to {explosionForce}.");
         handDisplay.UpdateDisplay();
+        handDisplay.PlaySound();
     }
 
     //# Input Event Handlers 

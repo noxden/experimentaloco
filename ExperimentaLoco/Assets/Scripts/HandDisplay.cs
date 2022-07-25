@@ -18,6 +18,7 @@ public class HandDisplay : MonoBehaviour
     //# Private Variables 
     private Player player;
     private TextMeshProUGUI display;
+    private AudioSource audioSource;
 
     //# Monobehaviour Events 
 
@@ -28,12 +29,18 @@ public class HandDisplay : MonoBehaviour
         //Debug.Log($"Player is {player.name}");
         display = GetComponentInChildren<TextMeshProUGUI>();
         //Debug.Log($"Display is {display.name}");
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void UpdateDisplay()
     {
         int _explosionForce = player.GetExplosionForce();
         display.text = _explosionForce.ToString();
+    }
+
+    public void PlaySound()
+    {
+        audioSource.Play();
     }
 
     //# Input Event Handlers 
