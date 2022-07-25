@@ -15,7 +15,6 @@ public class HandDisplay : MonoBehaviour
 {
     //# Public Variables 
 
-
     //# Private Variables 
     private Player player;
     private TextMeshProUGUI display;
@@ -26,9 +25,9 @@ public class HandDisplay : MonoBehaviour
     public void Awake()
     {
         player = GetComponentInParent<Player>();
-        Debug.Log($"Player is {player.name}");
+        //Debug.Log($"Player is {player.name}");
         display = GetComponentInChildren<TextMeshProUGUI>();
-        Debug.Log($"Display is {display.name}");
+        //Debug.Log($"Display is {display.name}");
     }
 
     public void UpdateDisplay()
