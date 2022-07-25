@@ -2,12 +2,13 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Travel & Transit in VR (by Philip Hausmeier)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 17-07-22
+// Last changed: 25-07-22
 //================================================================
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 [RequireComponent(typeof(CharacterController))]
 public class Player : MonoBehaviour
@@ -18,7 +19,7 @@ public class Player : MonoBehaviour
     public float drag = 1f;      //< while in air
     public int maxExplosivesInWorld;
     public GameObject explosivePrefab;
-    public Transform explosiveSpawnOrigin;
+    public GameObject explosiveSpawnOrigin;
     public GameObject ControllerLeft;
     public GameObject ControllerRight;
     public GameObject DebugAnchorLeft;
@@ -26,17 +27,13 @@ public class Player : MonoBehaviour
 
     public List<GameObject> ExplosivesInWorld;
 
-    //public bool canSpawnExplosives;
-    //public bool canDetonateExplosive; //maybe set this up as return method instead?
-
-    //public int cooldownExplosiveActivation;
-
     //# Private Variables 
     private CharacterController controller;
     private HandDisplay handDisplay;
     private Camera mainCamera;
     [SerializeField] private Vector3 velocity;   //< SerializeField for debugging purposes.
-    private int explosionForce = 1;
+    private int explosionForce = 2;
+    private GameObject heldExplosive;
     private bool isGrounded;
 
     //# Monobehaviour Events 
@@ -94,21 +91,26 @@ public class Player : MonoBehaviour
     //# Private Methods 
     private void SpawnExplosive()
     {
-        //Debug.Log($"Player.SpawnExplosive: Spawning explosive!");
-    }
-
-    private void ThrowExplosive()
-    {
-        if (maxExplosivesInWorld == 0)
+        if (maxExplosivesInWorld == 0)  //< Guard clause
         {
-            Debug.Log($"Player.ThrowExplosive: You cannot throw any explosives, as maxExplosivesInWorld is currently set to 0.");
+            Debug.Log($"Player.SpawnExplosive: You cannot spawn any explosives, as maxExplosivesInWorld is currently set to 0.");
             return;
         }
 
-        //Debug.Log($"Player.ThrowExplosive: Throwing explosive!");
-        GameObject newExplosive = Instantiate(explosivePrefab, explosiveSpawnOrigin.transform.position, Quaternion.identity);
-        ExplosivesInWorld.Add(newExplosive);
+        if (heldExplosive != null)    //< Guard clause -> If player is already holding an explosive, don't spawn another one.
+            return;
 
+        Debug.Log($"Player.SpawnExplosive: Spawning explosive!");
+
+        //> Instantiating and listing newly spawned explosive
+        heldExplosive = Instantiate(explosivePrefab, explosiveSpawnOrigin.transform.position, Quaternion.identity);
+        heldExplosive.GetComponent<Explosive>().canAttachToSurface = false;
+        ExplosivesInWorld.Add(heldExplosive);
+
+        //> Attaching explosive to hand ("explosiveSpawnOrigin") via FixedJoint.
+        explosiveSpawnOrigin.GetComponent<FixedJoint>().connectedBody = heldExplosive.GetComponent<Rigidbody>();
+
+        //> If necessary, removes oldest explosive in ExplosivesInWorld from list and despawns it.
         if (maxExplosivesInWorld <= -1)
             return;
         else if (ExplosivesInWorld.Count > maxExplosivesInWorld)
@@ -117,6 +119,21 @@ public class Player : MonoBehaviour
             ExplosivesInWorld.Remove(OldestExplosive);
             OldestExplosive.GetComponent<Explosive>().Despawn();
         }
+    }
+
+    private void ThrowExplosive()
+    {
+        if (heldExplosive == null)    //< If explosive was detonated in hand (and thereby deleted & removed from "heldExplosive"), then there is no need to throw it anymore.
+            return;
+
+        Debug.Log($"Player.ThrowExplosive: Throwing explosive!");
+
+        //> Making sure that the explosive is awake and then detaching it from hand.
+        explosiveSpawnOrigin.GetComponent<FixedJoint>().connectedBody.WakeUp();
+        explosiveSpawnOrigin.GetComponent<FixedJoint>().connectedBody = null;
+
+        heldExplosive.GetComponent<Explosive>().canAttachToSurface = true;
+        heldExplosive = null;
     }
 
     private void DetonateExplosive()
@@ -129,7 +146,7 @@ public class Player : MonoBehaviour
         //Debug.Log($"Player.DetonateExplosive: Detonating explosive!.");
 
         //> Removes newest explosive in ExplosivesInWorld from list and detonates it.
-        GameObject newestExplosive = ExplosivesInWorld[ExplosivesInWorld.Count-1];
+        GameObject newestExplosive = ExplosivesInWorld[ExplosivesInWorld.Count - 1];
         ExplosivesInWorld.Remove(newestExplosive);
         newestExplosive.GetComponent<Explosive>().Detonate(this, explosionForce * 5);    //< Actual explosionForce is always 5 times the power displayed -> increasing power in steps of five when TweakExplosionForce is called
     }
@@ -198,42 +215,4 @@ public class Player : MonoBehaviour
     {
         TweakExplosionForce(-1);
     }
-
-//! WIP Section
-//     //# Private Methods 
-//     private void SpawnExplosive()
-//     {
-//         Debug.Log($"Player.SpawnExplosive: Spawning explosive!");
-//         if (maxExplosivesInWorld == 0)
-//         {
-//             Debug.Log($"Player.SpawnExplosive: You cannot spawn any explosives, as maxExplosivesInWorld is currently set to 0.");
-//             return;
-//         }
-        
-//         //> Instantiating and configuring newly spawned explosive
-//         GameObject newExplosive = Instantiate(explosivePrefab, explosiveSpawnOrigin.transform.position, Quaternion.identity);
-//         newExplosive.GetComponent<Rigidbody>().isKinematic = true;
-//         newExplosive.transform.SetParent(explosiveSpawnOrigin, true);
-
-//         ExplosivesInWorld.Add(newExplosive);
-
-//         if (maxExplosivesInWorld <= -1)
-//             return;
-//         else if (ExplosivesInWorld.Count > maxExplosivesInWorld)
-//         {
-//             GameObject OldestExplosive = ExplosivesInWorld[0];
-//             ExplosivesInWorld.Remove(OldestExplosive);
-//             OldestExplosive.GetComponent<Explosive>().Despawn();
-//         }      
-//     }
-
-//     private void ThrowExplosive()
-//     {
-//         Debug.Log($"Player.ThrowExplosive: Throwing explosive!");
-
-//         List<GameObject> Reversed_ExplosivesInWorld = ExplosivesInWorld;
-//         Reversed_ExplosivesInWorld.Reverse();
-//         GameObject heldExplosive = Reversed_ExplosivesInWorld[0];
-//         heldExplosive.transform.SetParent(null);
-//         heldExplosive.GetComponent<Rigidbody>().isKinematic = false;
 }

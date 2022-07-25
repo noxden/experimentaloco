@@ -2419,6 +2419,42 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b33dd59805f09cb4f94bc163dcdb2dc9, type: 3}
+--- !u!1 &696492706 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8205625055514822980, guid: 22d217449dfbd924d9320b4121d40909, type: 3}
+  m_PrefabInstance: {fileID: 904722475}
+  m_PrefabAsset: {fileID: 0}
+--- !u!138 &696492710
+FixedJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696492706}
+  m_ConnectedBody: {fileID: 0}
+  m_ConnectedArticulationBody: {fileID: 0}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 0
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
+--- !u!54 &696492711
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696492706}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1001 &704592773
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3166,6 +3202,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player_ActionBased
       objectReference: {fileID: 0}
+    - target: {fileID: 8205625055186232954, guid: 22d217449dfbd924d9320b4121d40909, type: 3}
+      propertyPath: playerInput
+      value: 
+      objectReference: {fileID: 1357317387}
     - target: {fileID: 8205625055186232955, guid: 22d217449dfbd924d9320b4121d40909, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -3214,7 +3254,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8205625055211501224, guid: 22d217449dfbd924d9320b4121d40909, type: 3}
+      propertyPath: playerInput
+      value: 
+      objectReference: {fileID: 1357317387}
+    m_RemovedComponents:
+    - {fileID: 8205625055186232955, guid: 22d217449dfbd924d9320b4121d40909, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 22d217449dfbd924d9320b4121d40909, type: 3}
 --- !u!1 &912153696 stripped
 GameObject:
@@ -5391,7 +5436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ca1b4af724e29429a0ee37a757da90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebugWithoutHMD: 0
+  DebugWithoutHMD: 1
 --- !u!4 &1345836503
 Transform:
   m_ObjectHideFlags: 0
@@ -5553,7 +5598,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 0
+        m_CallState: 2
     m_ActionId: 72c9e928-6e28-4291-b573-330227ebb97a
     m_ActionName: Player/Detonate[/Mouse/rightButton]
   - m_PersistentCalls:
@@ -8645,7 +8690,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2026193075}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -563.94104, y: 199.71841, z: -265.25665}
+  m_LocalPosition: {x: -563.94104, y: 199.6984, z: -265.25665}
   m_LocalScale: {x: 50, y: 1, z: 50}
   m_ConstrainProportionsScale: 0
   m_Children: []

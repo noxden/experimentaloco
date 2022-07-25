@@ -16,6 +16,7 @@ public class Explosive : MonoBehaviour
     public int explosionRadius = 5;
     public bool hideRangeIndicator = false;
     public GameObject radiusIndicator;
+    public bool canAttachToSurface = true;
 
     //public bool canBeActivated; //< If for some reason, a bomb just cannot / must not be activated.
     //public bool isSelected; //< For a later iteration, where you can detonate bombs you look at.
@@ -45,7 +46,8 @@ public class Explosive : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        AttachToSurface(collision);
+        if (canAttachToSurface)
+            AttachToSurface(collision);
     }
 
     //# Public Methods 
