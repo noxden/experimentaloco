@@ -2915,7 +2915,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   disableVignette: 0
   minActivationThreshold: 0.5
-  maxIntensity: 1
+  maxIntensity: 0.5
   minIntensity: 0
   duration: 0.2
 --- !u!1001 &818360160
@@ -5508,7 +5508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ca1b4af724e29429a0ee37a757da90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebugWithoutHMD: 1
+  DebugWithoutHMD: 0
 --- !u!4 &1345836503
 Transform:
   m_ObjectHideFlags: 0
