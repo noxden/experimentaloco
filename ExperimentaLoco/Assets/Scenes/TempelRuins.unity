@@ -2913,8 +2913,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99b8f69b15af8a24495c0502d010956c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disableVignette: 0
   minActivationThreshold: 0.5
-  maxIntensity: 0.5
+  maxIntensity: 1
   minIntensity: 0
   duration: 0.2
 --- !u!1001 &818360160
@@ -3228,6 +3229,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2889750475304986832, guid: 22d217449dfbd924d9320b4121d40909, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.8870109
+      objectReference: {fileID: 0}
+    - target: {fileID: 2889750475304986832, guid: 22d217449dfbd924d9320b4121d40909, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.46174863
+      objectReference: {fileID: 0}
+    - target: {fileID: 2889750475304986832, guid: 22d217449dfbd924d9320b4121d40909, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -55
+      objectReference: {fileID: 0}
+    - target: {fileID: 4489348866914661035, guid: 22d217449dfbd924d9320b4121d40909, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9218221
+      objectReference: {fileID: 0}
+    - target: {fileID: 4489348866914661035, guid: 22d217449dfbd924d9320b4121d40909, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.387309
+      objectReference: {fileID: 0}
+    - target: {fileID: 4489348866914661035, guid: 22d217449dfbd924d9320b4121d40909, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.014159293
+      objectReference: {fileID: 0}
+    - target: {fileID: 4489348866914661035, guid: 22d217449dfbd924d9320b4121d40909, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0059491107
+      objectReference: {fileID: 0}
+    - target: {fileID: 4489348866914661035, guid: 22d217449dfbd924d9320b4121d40909, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -45.58
+      objectReference: {fileID: 0}
+    - target: {fileID: 4489348866914661035, guid: 22d217449dfbd924d9320b4121d40909, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 1.76
+      objectReference: {fileID: 0}
+    - target: {fileID: 4489348866914661035, guid: 22d217449dfbd924d9320b4121d40909, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8205625055186232952, guid: 22d217449dfbd924d9320b4121d40909, type: 3}
       propertyPath: m_Name
       value: Player_ActionBased
@@ -5704,6 +5745,38 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 0ea29012-4d66-42e1-beb5-170632c72e4e
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 812019268}
+        m_TargetAssemblyTypeName: VignetteController, Assembly-CSharp
+        m_MethodName: OnToggleVignettePressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: fae5d859-9999-4e18-9954-1f08f7b2d5d6
+    m_ActionName: Player/DisableVignette[/Keyboard/v]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1357317385}
+        m_TargetAssemblyTypeName: InputHandler, Assembly-CSharp
+        m_MethodName: OnSpawnPressed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 86d895b3-c52e-45bc-ae03-19ff95245d6d
+    m_ActionName: Player/Spawn[/Mouse/leftButton,/Touchscreen/primaryTouch/tap]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
