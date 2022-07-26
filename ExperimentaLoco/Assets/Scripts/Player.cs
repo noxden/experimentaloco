@@ -14,6 +14,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class Player : MonoBehaviour
 {
     //# Public Variables 
+    public Vector3 velocity;
     public float gravity = -9.81f;
     public float friction = 3f;  //< while on ground
     public float drag = 1f;      //< while in air
@@ -31,7 +32,6 @@ public class Player : MonoBehaviour
     private CharacterController controller;
     private HandDisplay handDisplay;
     private Camera mainCamera;
-    [SerializeField] private Vector3 velocity;   //< SerializeField for debugging purposes.
     private int explosionForce = 2;
     private GameObject heldExplosive;
     private bool isGrounded;
