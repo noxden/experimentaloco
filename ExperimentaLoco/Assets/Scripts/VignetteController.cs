@@ -13,6 +13,7 @@ using UnityEngine.Rendering.PostProcessing;
 public class VignetteController : MonoBehaviour
 {
     //# Public Variables 
+    public bool disableVignette;
     [Range(0f, 5f)] public float minActivationThreshold;
     [Range(0f, 1f)] public float maxIntensity, minIntensity;
     public float duration;
@@ -31,6 +32,9 @@ public class VignetteController : MonoBehaviour
 
     private void Update()
     {
+        if (disableVignette)
+            return; 
+
         bool hasVelocity = (player.velocity.magnitude >= minActivationThreshold);
 
         if (hasVelocity)
@@ -43,10 +47,13 @@ public class VignetteController : MonoBehaviour
             if (delta > 0)
                 delta -= Time.deltaTime / duration;
         }
-        vignette.intensity.Interp(minIntensity, maxIntensity, delta);
+        float newIntensity = Mathf.Lerp(minIntensity, maxIntensity, delta);
+        vignette.intensity.Override(newIntensity);
     }
 
-    //# Private Methods 
-
     //# Input Event Handlers 
+    public void OnToggleVignettePressed()
+    {
+        disableVignette = !disableVignette;
+    }
 }
