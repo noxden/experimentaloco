@@ -2915,7 +2915,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   disableVignette: 0
   minActivationThreshold: 0.5
-  maxIntensity: 0.5
+  maxIntensity: 1
   minIntensity: 0
   duration: 0.2
 --- !u!1001 &818360160
