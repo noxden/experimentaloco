@@ -176,8 +176,8 @@ public class Player : MonoBehaviour
 
     private bool IsMiniscule(float value)   //> Returns true if input value's magnitude is less than stopTreshold.
     {
-        float stopThreshold = 0.001f;
-        return ((value <= stopThreshold && value > 0) || (value >= -stopThreshold && value < 0));
+        float stopThreshold = 0.1f;       //< DEFAULT: 0.001f, STANDALONE VR: 0.1f
+        return (value <= stopThreshold && value >= -stopThreshold);
     }
 
     private void TweakExplosionForce(int change)

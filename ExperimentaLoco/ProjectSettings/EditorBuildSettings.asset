@@ -4,7 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/TempelRuins.unity
+    guid: 0efff81f97eca434c8d780590c7e9258
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: f5745da21be88ea468180c59153a8a45, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: f7f21a6be126c13468ba965ed26e6256, type: 2}
